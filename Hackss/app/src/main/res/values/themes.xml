@@ -1,8 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <style name="Theme.Startup_hackathon20" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">#6f2dbd</item>
-        <item name="colorPrimaryDark">#1a0a2e</item>
-        <item name="colorAccent">#ff6b35</item>
-    </style>
-</resources>
