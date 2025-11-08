@@ -1,0 +1,3 @@
+﻿<\!-- This is a placeholder. For production, replace with actual 192x192 PNG icon -->
+<\!-- You can create icons at: https://www.favicon-generator.org/ -->
+<\!-- Upload a broom/ghost emoji or custom logo -->

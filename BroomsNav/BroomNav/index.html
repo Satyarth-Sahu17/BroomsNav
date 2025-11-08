@@ -1,0 +1,188 @@
+﻿
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BroomNav - Safe Route Companion</title>
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#1a0a2e">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="styles.css">
+    <link rel="apple-touch-icon" href="/icon-192.png">
+</head>
+<body>
+    <div class="app-container">
+        <\!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="logo">
+                    <span class="broom-icon">🧹</span>
+                    <h1>BroomNav</h1>
+                </div>
+                <div class="user-info">
+                    <span id="userName" class="user-name"></span>
+                    <button id="logoutBtn" class="btn-secondary">Logout</button>
+                </div>
+            </div>
+        </header>
+
+        <\!-- Main Content -->
+        <main class="main-content">
+            <\!-- Search Panel -->
+            <div class="search-panel">
+                <div class="search-container">
+                    <div class="city-selector">
+                        <label for="citySelect">
+                            <span class="ghost-icon">👻</span> Select City
+                        </label>
+                        <select id="citySelect" class="input-field">
+                            <option value="">Choose a city...</option>
+                            <option value="mumbai">Mumbai</option>
+                            <option value="delhi">Delhi</option>
+                            <option value="bangalore">Bangalore</option>
+                            <option value="kolkata">Kolkata</option>
+                            <option value="chennai">Chennai</option>
+                            <option value="hyderabad">Hyderabad</option>
+                            <option value="pune">Pune</option>
+                            <option value="ahmedabad">Ahmedabad</option>
+                            <option value="jaipur">Jaipur</option>
+                            <option value="lucknow">Lucknow</option>
+                        </select>
+                    </div>
+
+                    <div class="location-inputs">
+                        <div class="input-group">
+                            <label for="startLocation">
+                                <span class="location-icon">📍</span> Start Location
+                            </label>
+                            <input 
+                                type="text" 
+                                id="startLocation" 
+                                class="input-field" 
+                                placeholder="Enter starting point..."
+                            />
+                        </div>
+
+                        <div class="input-group">
+                            <label for="endLocation">
+                                <span class="location-icon">🎯</span> Destination
+                            </label>
+                            <input 
+                                type="text" 
+                                id="endLocation" 
+                                class="input-field" 
+                                placeholder="Enter destination..."
+                            />
+                        </div>
+                    </div>
+
+                    <button id="findRouteBtn" class="btn-primary">
+                        <span>🔮 Find Safest Route</span>
+                    </button>
+
+                    <div id="routeInfo" class="route-info hidden">
+                        <h3>Route Safety Score</h3>
+                        <div id="safetyScore" class="safety-score"></div>
+                        <div id="routeDetails" class="route-details"></div>
+                    </div>
+                </div>
+
+                <div class="legend">
+                    <h4>Safety Legend</h4>
+                    <div class="legend-item">
+                        <span class="legend-color safe"></span>
+                        <span>Safe Zone</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-color moderate"></span>
+                        <span>Moderate Risk</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-color risky"></span>
+                        <span>High Risk</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-icon">👻</span>
+                        <span>User Reported</span>
+                    </div>
+                </div>
+            </div>
+
+            <\!-- Map Container -->
+            <div class="map-container">
+                <div id="map"></div>
+                <button id="reportBtn" class="btn-report" title="Report unsafe location">
+                    <span>⚠️ Report</span>
+                </button>
+            </div>
+        </main>
+    </div>
+
+    <\!-- Report Modal -->
+    <div id="reportModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>
+            <h2>
+                <span class="ghost-icon">👻</span> Report Unsafe Location
+            </h2>
+            <form id="reportForm">
+                <div class="input-group">
+                    <label for="reportType">Type of Issue</label>
+                    <select id="reportType" class="input-field" required>
+                        <option value="">Select issue type...</option>
+                        <option value="poor-lighting">Poor Lighting</option>
+                        <option value="crime-prone">Crime Prone Area</option>
+                        <option value="accident-zone">Accident Prone Zone</option>
+                        <option value="isolated">Isolated Area</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label for="reportDescription">Description (Optional)</label>
+                    <textarea 
+                        id="reportDescription" 
+                        class="input-field" 
+                        rows="4" 
+                        placeholder="Describe the safety concern..."
+                    ></textarea>
+                </div>
+
+                <div class="input-group">
+                    <label for="reportLat">Latitude</label>
+                    <input type="text" id="reportLat" class="input-field" readonly />
+                </div>
+
+                <div class="input-group">
+                    <label for="reportLng">Longitude</label>
+                    <input type="text" id="reportLng" class="input-field" readonly />
+                </div>
+
+                <button type="submit" class="btn-primary">Submit Report</button>
+            </form>
+        </div>
+    </div>
+
+    <\!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay hidden">
+        <div class="loading-content">
+            <div class="broom-animation">🧹</div>
+            <p>Finding the safest route...</p>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="indian-cities.js"></script>
+    <script src="safety-data.js"></script>
+    <script src="map.js"></script>
+    <script src="app.js"></script>
+    <script>
+        // Register service worker for PWA
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/service-worker.js')
+                .then(reg => console.log('Service Worker registered'))
+                .catch(err => console.log('Service Worker registration failed'));
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,136 @@
+﻿
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - BroomNav</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="auth-page">
+    <div class="auth-container">
+        <div class="auth-box">
+            <div class="auth-header">
+                <span class="broom-icon-large">🧹</span>
+                <h1>BroomNav</h1>
+                <p class="tagline">Your Safe Route Companion</p>
+            </div>
+
+            <form id="registerForm" class="auth-form">
+                <h2>Create Account</h2>
+                <p class="subtitle">Join the community and travel safely</p>
+
+                <div class="input-group">
+                    <label for="name">
+                        <span class="icon">👤</span> Full Name
+                    </label>
+                    <input 
+                        type="text" 
+                        id="name" 
+                        class="input-field" 
+                        placeholder="Enter your name" 
+                        required
+                    />
+                </div>
+
+                <div class="input-group">
+                    <label for="email">
+                        <span class="icon">📧</span> Email
+                    </label>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        class="input-field" 
+                        placeholder="your.email@example.com" 
+                        required
+                    />
+                </div>
+
+                <div class="input-group">
+                    <label for="password">
+                        <span class="icon">🔒</span> Password
+                    </label>
+                    <input 
+                        type="password" 
+                        id="password" 
+                        class="input-field" 
+                        placeholder="Create a strong password" 
+                        required
+                        minlength="6"
+                    />
+                </div>
+
+                <div class="input-group">
+                    <label for="confirmPassword">
+                        <span class="icon">🔒</span> Confirm Password
+                    </label>
+                    <input 
+                        type="password" 
+                        id="confirmPassword" 
+                        class="input-field" 
+                        placeholder="Re-enter your password" 
+                        required
+                    />
+                </div>
+
+                <div id="errorMessage" class="error-message hidden"></div>
+
+                <button type="submit" class="btn-primary btn-full">
+                    <span>Register</span>
+                </button>
+
+                <div class="auth-footer">
+                    <p>Already have an account? <a href="login.html">Login here</a></p>
+                </div>
+            </form>
+        </div>
+
+        <div class="floating-ghosts">
+            <span class="ghost ghost-1">👻</span>
+            <span class="ghost ghost-2">🎃</span>
+            <span class="ghost ghost-3">🕷️</span>
+        </div>
+    </div>
+
+    <script src="auth.js"></script>
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const errorMsg = document.getElementById('errorMessage');
+            
+            // Validate passwords match
+            if (password \!== confirmPassword) {
+                errorMsg.textContent = 'Passwords do not match\!';
+                errorMsg.classList.remove('hidden');
+                return;
+            }
+            
+            try {
+                const response = await fetch('/api/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, email, password })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    localStorage.setItem('token', data.token);
+                    localStorage.setItem('user', JSON.stringify(data.user));
+                    window.location.href = 'index.html';
+                } else {
+                    errorMsg.textContent = data.error || 'Registration failed';
+                    errorMsg.classList.remove('hidden');
+                }
+            } catch (error) {
+                errorMsg.textContent = 'Network error. Please try again.';
+                errorMsg.classList.remove('hidden');
+            }
+        });
+    </script>
+</body>
+</html>

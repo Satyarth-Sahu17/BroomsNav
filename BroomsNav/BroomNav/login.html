@@ -1,0 +1,100 @@
+﻿
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - BroomNav</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="auth-page">
+    <div class="auth-container">
+        <div class="auth-box">
+            <div class="auth-header">
+                <span class="broom-icon-large">🧹</span>
+                <h1>BroomNav</h1>
+                <p class="tagline">Your Safe Route Companion</p>
+            </div>
+
+            <form id="loginForm" class="auth-form">
+                <h2>Welcome Back\!</h2>
+                <p class="subtitle">Enter your credentials to continue</p>
+
+                <div class="input-group">
+                    <label for="email">
+                        <span class="icon">📧</span> Email
+                    </label>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        class="input-field" 
+                        placeholder="your.email@example.com" 
+                        required
+                    />
+                </div>
+
+                <div class="input-group">
+                    <label for="password">
+                        <span class="icon">🔒</span> Password
+                    </label>
+                    <input 
+                        type="password" 
+                        id="password" 
+                        class="input-field" 
+                        placeholder="Enter your password" 
+                        required
+                    />
+                </div>
+
+                <div id="errorMessage" class="error-message hidden"></div>
+
+                <button type="submit" class="btn-primary btn-full">
+                    <span>Login</span>
+                </button>
+
+                <div class="auth-footer">
+                    <p>Don't have an account? <a href="register.html">Register here</a></p>
+                </div>
+            </form>
+        </div>
+
+        <div class="floating-ghosts">
+            <span class="ghost ghost-1">👻</span>
+            <span class="ghost ghost-2">🎃</span>
+            <span class="ghost ghost-3">🕷️</span>
+        </div>
+    </div>
+
+    <script src="auth.js"></script>
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const errorMsg = document.getElementById('errorMessage');
+            
+            try {
+                const response = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    localStorage.setItem('token', data.token);
+                    localStorage.setItem('user', JSON.stringify(data.user));
+                    window.location.href = 'index.html';
+                } else {
+                    errorMsg.textContent = data.error || 'Login failed';
+                    errorMsg.classList.remove('hidden');
+                }
+            } catch (error) {
+                errorMsg.textContent = 'Network error. Please try again.';
+                errorMsg.classList.remove('hidden');
+            }
+        });
+    </script>
+</body>
+</html>
