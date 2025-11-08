@@ -2,7 +2,7 @@
 
 **BroomNav** is a spooky-themed, safety-focused navigation app that finds the safest route between two locations. 
 Unlike traditional navigation apps that prioritize speed, BroomNav guides you along well-lit, lower-risk paths
-while letting you report "spooky" or unsafe locations for others. Enjoy your travels—especially at night—with peace of 
+while letting you report "spooky" or unsafe locations for others. Enjoy your travels — especially at night — with peace of 
 mind and a playful Halloween flair!
 
 ---
@@ -28,13 +28,17 @@ mind and a playful Halloween flair!
 - **Real-Time Updates:**  
   User reports sync instantly across all devices (powered by Firebase).
 
-- **Mobile-First:**  
-  Optimized for Android and iOS. Responsive and reliable, wherever you go.
-
 ---
 
 ## 🛠 Tech Stack
+The project uses:
 
+* *TypeScript* (.ts, .tsx) for all React/Next.js components and pages
+* *JavaScript* (implicitly, through TypeScript transpilation)
+* *CSS* (.css) for styling
+* *JSON* (.json) for configuration (e.g., tsconfig.json)
+
+Framework/tooling: *Next.js + React (TypeScript)*.
 ---
 
 ## 🌍 How To Use
@@ -54,11 +58,7 @@ MIT License
 ---
 
 ## 🙏 Acknowledgments
-
-- [Leaflet.js](https://leafletjs.com/)
-- [OpenStreetMap](https://www.openstreetmap.org/)
 - All BroomNav contributors and spooky path reporters!
 
 ---
-
 **BroomNav:** Don’t get lost in the dark—let your broomstick find the safest path home! 🧹🗺️👻
