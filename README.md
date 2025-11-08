@@ -35,15 +35,6 @@ mind and a playful Halloween flair!
 
 ## 🛠 Tech Stack
 
-**App Technology:**
-- Built using web tech for mobile:  
-  - React Native / Flutter  
-  - Or: Hybrid frameworks (Cordova/Capacitor + Leaflet.js, HTML, CSS, JavaScript)
-- Map: Leaflet.js + OpenStreetMap API
-- Backend/API: Node.js + Express.js
-- Database: Firebase Realtime Database or MongoDB Atlas
-- Safety & Lighting Data: Mock/open datasets (JSON/API), updated regularly by community
-
 ---
 
 ## 🌍 How To Use
